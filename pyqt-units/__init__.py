@@ -6,6 +6,7 @@ Created on 12 Aug 2014
 
 from models import Measurement as MeasurementObject, UnitMeasurementException
 from ConglomerateWidgets import UnitEntryField, SingleMeasurementEntryFieldStack, MeasurementEntryGridField
+from MeasurementWidgets import UnitDisplay, UnitComboBox, UnitSpinBox
 from UnitComboDelegate import UnitComboDelegate
 
 _measurements = {}
