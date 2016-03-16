@@ -166,21 +166,3 @@ class MeasurementEntryGridField(QtGui.QWidget):
         return self.boxes[i].value()
 
 
-def main():
-    app = QtGui.QApplication(sys.argv)
-
-    m = MeasurementDatabase.Measurement('Length')
-    p = MeasurementDatabase.Measurement('Pressure')
-    # mainWindow = SingleMeasurementEntryFieldStack(None,3, labels = ['hello','goodbye',"I'm back"])
-    #    mainWindow.setMeasurement(m)
-    mainWindow = MeasurementEntryGridField(None)
-    mainWindow.addField(m, 'r', label='Radius')
-    mainWindow.addField(m, 'w', label='Width')
-    mainWindow.addField(m, 'l', label='Length', measurementLabel='large')
-    mainWindow.addField(p, 'p', label='Pressure')
-    mainWindow.show()
-    sys.exit(app.exec_())
-
-
-if __name__ == "__main__":
-    main()
