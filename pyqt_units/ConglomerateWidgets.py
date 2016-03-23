@@ -50,6 +50,8 @@ class UnitEntryField(QtGui.QWidget):
     def setValue(self, f):
         return self._box.setValue(f)
 
+    def setReadOnly(self, a_bool):
+        self._box.setEnabled(not a_bool)
 
 class SingleMeasurementEntryFieldStack(QtGui.QWidget):
     valueChanged = pyqtSignal(float, str)
@@ -130,10 +132,10 @@ class MeasurementEntryGridField(QtGui.QWidget):
         _box = UnitSpinBox(self, measurement, measurementLabel=measurementLabel, delta=delta)
         _box.setMargin(0)
         self.layout.addWidget(_box, nextIndex, 1)
-        _box.valueChanged.connect(self.valueSignalMapper.map);
-        self.valueSignalMapper.setMapping(_box, nextIndex);
-        _box.editingFinished.connect(self.editingSignalMapper.map);
-        self.editingSignalMapper.setMapping(_box, nextIndex);
+        _box.valueChanged.connect(self.valueSignalMapper.map)
+        self.valueSignalMapper.setMapping(_box, nextIndex)
+        _box.editingFinished.connect(self.editingSignalMapper.map)
+        self.editingSignalMapper.setMapping(_box, nextIndex)
         self.boxes.append(_box)
 
         if _editable and measurement is not None:

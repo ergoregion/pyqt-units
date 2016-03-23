@@ -126,6 +126,7 @@ class UnitSpinBox(QtGui.QWidget):
         self.layout = QtGui.QVBoxLayout(self)
         self.layout.setMargin(2)
         self._box = AddaptiveDoubleSpinBox(self)
+        self._box.setButtonSymbols(QtGui.QAbstractSpinBox.NoButtons)
         self._box.setMaximum(2.0e30)
         self._box.setMinimum(-2.0e30)
         self._box.setDecimals(12)
