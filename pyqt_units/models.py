@@ -81,6 +81,19 @@ class Measurement(object):
                             (u.id_cache, self._id_cache, label))
         _connection.commit()
 
+    def report(self, base_value, decimalPlaces=3, label='normal', writeUnit=True):
+        try:
+            scaled_value = self.currentUnit(label).scaledValueOf(base_value)
+            text = '%.*f' % (decimalPlaces, scaled_value)
+        except (ValueError, TypeError):
+            text = str(base_value)
+        if writeUnit:
+            text = text  + ' (' + self.currentUnit(label).name + ')'
+        return text
+
+    def scaledValueOf(self, base_float, label='normal'):
+        return self.currentUnit(label).scaledValueOf(base_float)
+
 
 class Unit(object):
     def __init__(self):
