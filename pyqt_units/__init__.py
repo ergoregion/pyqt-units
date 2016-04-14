@@ -8,9 +8,13 @@ from models import Measurement as MeasurementObject, UnitMeasurementException
 from ConglomerateWidgets import UnitEntryField, SingleMeasurementEntryFieldStack, MeasurementEntryGridField
 from MeasurementWidgets import UnitDisplay, UnitComboBox, UnitSpinBox
 from UnitComboDelegate import UnitComboDelegate
+import SelectionMenu
 
 _measurements = {}
 
+def menu(parent):
+    #only those measurements which have been used for something
+    return SelectionMenu.menu(_measurements.values(),parent)
 
 def Measurement(name):
     if name not in _measurements:

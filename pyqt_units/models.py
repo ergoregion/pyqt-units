@@ -128,4 +128,7 @@ class Unit(object):
 
     def currentUnit(self, label='normal'):
         return self.measurement.currentUnit(label=label)
+
+    def becomeCurrentNormalUnit(self):
+        self.measurement.setCurrentUnit(self)
     
