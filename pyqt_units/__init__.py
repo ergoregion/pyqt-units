@@ -8,7 +8,7 @@ from models import Measurement as MeasurementObject, UnitMeasurementException
 from ConglomerateWidgets import UnitEntryField, SingleMeasurementEntryFieldStack, MeasurementEntryGridField
 from MeasurementWidgets import UnitDisplay, UnitComboBox, UnitSpinBox
 from UnitComboDelegate import UnitComboDelegate
-from CurrentUnitSetter import setter
+from CurrentUnitSetter import setter as _setter
 import SelectionMenu
 
 _measurements = {}
@@ -30,4 +30,4 @@ def Unit(measurement, name):
     raise UnitMeasurementException("There is no unit for " + str(measurement) + " by the name: " + name)
 
 def changedSignal():
-    return setter.changed
+    return _setter.changed
