@@ -6,6 +6,7 @@ Created on 12 Aug 2014
 
 import sqlite3
 from MeasurementDatabase import filename
+from CurrentUnitSetter import setter
 
 _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
 
@@ -130,5 +131,5 @@ class Unit(object):
         return self.measurement.currentUnit(label=label)
 
     def becomeCurrentNormalUnit(self):
-        self.measurement.setCurrentUnit(self)
+        setter.setMeasurementUnit(self.measurement, self)
     

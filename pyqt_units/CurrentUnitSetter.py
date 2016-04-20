@@ -15,3 +15,5 @@ class CurrentUnitSetter(QtCore.QObject):
     def setMeasurementUnit(self, m, u, label='normal'):
         m.setCurrentUnit(u, label)
         self.changed.emit(m.name, u.name, label)
+
+setter = CurrentUnitSetter()  # Module wide item to transfer setting changes

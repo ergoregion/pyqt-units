@@ -7,10 +7,9 @@ Created on 14 Aug 2014
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import pyqtSignal
 
-from CurrentUnitSetter import CurrentUnitSetter
+from CurrentUnitSetter import setter
 
 
-setter = CurrentUnitSetter()  # Module wide item to transfer setting changes
 
 
 class UnitDisplay(QtGui.QWidget):
