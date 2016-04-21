@@ -6,7 +6,7 @@ Created on 17 Aug 2014
 
 import sys
 
-import MeasurementDatabase
+from . import MeasurementDatabase
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import pyqtSignal
 

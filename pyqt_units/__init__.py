@@ -4,12 +4,12 @@ Created on 12 Aug 2014
 @author: neil.butcher
 """
 
-from models import Measurement as MeasurementObject, UnitMeasurementException
-from ConglomerateWidgets import UnitEntryField, SingleMeasurementEntryFieldStack, MeasurementEntryGridField
-from MeasurementWidgets import UnitDisplay, UnitComboBox, UnitSpinBox
-from UnitComboDelegate import UnitComboDelegate
-from CurrentUnitSetter import setter as _setter
-import SelectionMenu
+from .models import Measurement as MeasurementObject, UnitMeasurementException
+from .ConglomerateWidgets import UnitEntryField, SingleMeasurementEntryFieldStack, MeasurementEntryGridField
+from .MeasurementWidgets import UnitDisplay, UnitComboBox, UnitSpinBox
+from .UnitComboDelegate import UnitComboDelegate
+from .CurrentUnitSetter import setter as _setter
+from . import SelectionMenu
 
 _measurements = {}
 

@@ -7,7 +7,7 @@ Created on 14 Aug 2014
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import pyqtSignal
 
-from CurrentUnitSetter import setter
+from .CurrentUnitSetter import setter
 
 
 
