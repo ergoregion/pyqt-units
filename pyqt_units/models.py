@@ -56,7 +56,7 @@ class Measurement(object):
 
     @property
     def units(self):
-        return self._units().values()
+        return list(self._units().values())
 
     def _id(self):
         if self._id_cache is None:
