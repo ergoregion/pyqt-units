@@ -19,11 +19,11 @@ class PrintWidget(QtGui.QWidget):
 
     def _print_text(self):
         text = self.text_entry_widget.text()
-        print self.length_measurement.report(text)
+        print (self.length_measurement.report(text))
 
     def _print_float(self):
         float = self.spin_entry_widget.value()
-        print self.length_measurement.report(float)
+        print (self.length_measurement.report(float))
 
 
 

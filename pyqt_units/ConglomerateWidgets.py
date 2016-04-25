@@ -10,7 +10,7 @@ from . import MeasurementDatabase
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import pyqtSignal
 
-from MeasurementWidgets import UnitDisplay, UnitComboBox, UnitSpinBox
+from .MeasurementWidgets import UnitDisplay, UnitComboBox, UnitSpinBox
 
 
 class UnitEntryField(QtGui.QWidget):
@@ -96,7 +96,7 @@ class SingleMeasurementEntryFieldStack(QtGui.QWidget):
     def _valueChanged(self, i):
         value = self.fields[i].value()
         identity = self.identity[i]
-        print value, identity
+        print (value, identity)
         self.valueChanged.emit(value, identity)
 
 
