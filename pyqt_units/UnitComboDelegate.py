@@ -15,7 +15,7 @@ class UnitComboDelegate(QtGui.QStyledItemDelegate):
 
     def createEditor(self, parent, option, index):
     
-        measurement = index.data(QtCore.Qt.UserRole).toPyObject()
+        measurement = index.data(QtCore.Qt.UserRole)
         self.itemslist = measurement.units
         names_list = []
         for i in self.itemslist:
@@ -27,7 +27,7 @@ class UnitComboDelegate(QtGui.QStyledItemDelegate):
         return self.editor
 
     def setEditorData(self, editor, index):
-        text = index.data(QtCore.Qt.DisplayRole).toString()
+        text = index.data(QtCore.Qt.DisplayRole)
         pos = self.editor.findText(text)
         if pos == -1:  
             pos = 0
@@ -36,9 +36,8 @@ class UnitComboDelegate(QtGui.QStyledItemDelegate):
     def setModelData(self, editor, model, index):
         text = self.editor.currentText()
         i = self.editor.currentIndex()
-        variant = QtCore.QVariant(text)
-        variant.unit = self.itemslist[i]
-        model.setData(index, variant)
+        unit = self.itemslist[i]
+        model.setData(index, unit)
     
     def updateEditorGeometry(self, editor, option, index):
         r = option.rect
