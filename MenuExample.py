@@ -13,10 +13,6 @@ class MenuWidget(QtGui.QTableWidget):
 
     def __init__(self, parent = None):
         QtGui.QTableWidget.__init__(self, parent)
-        length_measurement = Measurement('Length')
-        time_measurement = Measurement('Time')
-        speed_measurement = Measurement('Speed')
-
 
 
     def contextMenuEvent(self, event):
@@ -24,9 +20,24 @@ class MenuWidget(QtGui.QTableWidget):
         m = menu(self)
         action = m.exec_(self.mapToGlobal(event.pos()))
 
+
+class MenuWindow(QtGui.QMainWindow):
+
+    def __init__(self):
+        super(MenuWindow, self).__init__()
+        w = MenuWidget(self)
+        self.setCentralWidget(w)
+        menubar = self.menuBar()
+        m = menu(self)
+        menubar.addMenu(m)
+
 def main():
+    length_measurement = Measurement('Length')
+    time_measurement = Measurement('Time')
+    speed_measurement = Measurement('Speed')
+
     app = QtGui.QApplication(sys.argv)
-    mainWindow = MenuWidget()
+    mainWindow = MenuWindow()
     mainWindow.show()
     sys.exit(app.exec_())
 

@@ -12,7 +12,7 @@ from PyQt4.QtCore import pyqtSignal
 
 
 def menu(measurements_list, parent):
-    menu = QtGui.QMenu('Units')
+    menu = QtGui.QMenu('Units', parent)
 
     for m in measurements_list:
         sm = _menu_for_measurement(m,menu)
