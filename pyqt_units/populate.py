@@ -13,7 +13,6 @@ def populateMeasurements(measurements):
     i = 0
     j = 0
     for a in measurements:
-        print i
         _connection.execute('INSERT INTO MEASUREMENTS VALUES (?,?)', (i,a.name))
         _connection.execute('INSERT INTO CurrentUnits VALUES (?,?,?,?)', (3*i,i,'normal',j))
         _connection.execute('INSERT INTO CurrentUnits VALUES (?,?,?,?)', (3*i +1,i,'large',j))

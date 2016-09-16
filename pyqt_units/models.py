@@ -8,7 +8,7 @@ import sqlite3
 from .MeasurementDatabase import filename
 from .CurrentUnitSetter import setter
 
-_connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
+
 
 
 class UnitMeasurementException(Exception):
@@ -38,6 +38,7 @@ class Measurement(object):
     def _units(self):
         if self._unitsCache is None:
             self._unitsCache = {}
+            _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
             cursor = _connection.execute("SELECT name , Scale , offset ,id , base FROM UNITS WHERE measurementID = ?",
                                          (self._id(),))
             for row in cursor:
@@ -60,6 +61,7 @@ class Measurement(object):
 
     def _id(self):
         if self._id_cache is None:
+            _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
             cursor = _connection.execute("SELECT id  FROM MEASUREMENTS WHERE name = ?", (self.name,))
             for row in cursor:
                 if self._id_cache is None:
@@ -71,6 +73,7 @@ class Measurement(object):
         return self._id_cache
 
     def currentUnit(self, label='normal'):
+        _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
         cursor = _connection.execute("SELECT unitID  FROM CurrentUnits WHERE measurementID = ? AND label = ? ",
                                      (self._id(), label))
         for row in cursor:
@@ -78,6 +81,7 @@ class Measurement(object):
         return None
 
     def setCurrentUnit(self, u, label='normal'):
+        _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
         _connection.execute("UPDATE CurrentUnits set unitID = ? where measurementID = ? AND label = ? ",
                             (u.id_cache, self._id_cache, label))
         _connection.commit()
