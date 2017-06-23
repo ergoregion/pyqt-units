@@ -5,6 +5,7 @@
 
 
 import sqlite3
+import ast
 from .MeasurementDatabase import filename
 from .CurrentUnitSetter import setter
 
@@ -39,7 +40,7 @@ class Measurement(object):
         if self._unitsCache is None:
             self._unitsCache = {}
             _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
-            cursor = _connection.execute("SELECT name , Scale , offset ,id , base FROM UNITS WHERE measurementID = ?",
+            cursor = _connection.execute("SELECT name , Scale , offset ,id , base, alias FROM UNITS WHERE measurementID = ?",
                                          (self._id(),))
             for row in cursor:
                 unit = Unit()
@@ -51,6 +52,7 @@ class Measurement(object):
                 self._unitsCache[row[3]] = unit
                 if row[4] == 1:
                     self._baseUnitCache = unit
+                unit.alias = ast.literal_eval(row[5])
             if self._baseUnitCache is None:
                 raise UnitMeasurementException("There was no unit to act as the base unit for measurement " + self.name)
         return self._unitsCache
@@ -107,6 +109,7 @@ class Unit(object):
         self.scale = 1.0
         self.offset = 0.0
         self.id_cache = 0
+        self.alias = []
 
     def __str__(self):
         return self.name + "<Unit>"
