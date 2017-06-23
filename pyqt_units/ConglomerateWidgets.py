@@ -1,8 +1,8 @@
-"""
-Created on 17 Aug 2014
 
-@author: neil.butcher
-"""
+#Created on 17 Aug 2014
+
+#@author: neil.butcher
+
 
 import sys
 

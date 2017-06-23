@@ -1,8 +1,8 @@
-"""
-Created on 12 Aug 2014
 
-@author: neil.butcher
-"""
+#Created on 12 Aug 2014
+
+#@author: neil.butcher
+
 
 import sqlite3
 from .MeasurementDatabase import filename

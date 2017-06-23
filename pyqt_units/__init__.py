@@ -1,8 +1,8 @@
-"""
-Created on 12 Aug 2014
 
-@author: neil.butcher
-"""
+#Created on 17 Aug 2014
+
+#@author: neil.butcher
+
 
 from .models import Measurement as MeasurementObject, UnitMeasurementException
 from .ConglomerateWidgets import UnitEntryField, SingleMeasurementEntryFieldStack, MeasurementEntryGridField

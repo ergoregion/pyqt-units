@@ -1,8 +1,8 @@
-'''
-Created on 14 Aug 2014
 
-@author: neil.butcher
-'''
+#Created on 14 Aug 2014
+
+#@author: neil.butcher
+
 
 from PyQt4 import QtCore
 from PyQt4.QtCore import pyqtSignal
