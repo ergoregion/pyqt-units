@@ -9,5 +9,5 @@ root_filename =  os.path.dirname(__file__) + '/Measurements/Measurements_root.db
 
 filename = 'Measurements_temp.db'
 
-if not os._exists(filename):
+if not os.path.isfile(filename):
     copyfile(root_filename,filename)
