@@ -9,7 +9,7 @@ setup(
     url='https://github.com/ergoregion/pyqt-units.git',
     license='MIT',
     keywords=['units pyqt measurements'],
-    install_requires=['pyqt>=4'],
+    install_requires=[],
     python_requires='>=3',
     package_data={
         'pyqt_units': ['Measurements\measurements_root.db'],
