@@ -27,8 +27,8 @@ class Measurement(object):
         self._id_cache = None
         self._baseUnitCache = None
 
-    def __str__(self):
-        return self.name + "<Measurement>"
+    def __repr__(self):
+        return "Measurement('" + self.name + "')"
 
     @property
     def baseUnit(self):
@@ -122,8 +122,8 @@ class Unit(object):
         self.id_cache = 0
         self.alias = []
 
-    def __str__(self):
-        return self.name + "<Unit>"
+    def __repr__(self):
+        return "Unit(" +str(self.measurement) + ",'" + self.name + "')"
 
     def scaledValueOf(self, base_float):
         return (base_float / self.scale ) - self.offset
