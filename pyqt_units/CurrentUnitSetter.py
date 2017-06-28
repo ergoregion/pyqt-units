@@ -13,6 +13,11 @@ class CurrentUnitSetter(QtCore.QObject):
     changed = pyqtSignal(str,str,str)
     
     def setMeasurementUnit(self, m, u, label='normal'):
+        """
+        :type m: Measurement
+        :type u: Unit
+        :type label: str
+        """
         m.setCurrentUnit(u, label)
         self.changed.emit(m.name, u.name, label)
 

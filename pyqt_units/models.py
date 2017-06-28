@@ -32,8 +32,11 @@ class Measurement(object):
 
     @property
     def baseUnit(self):
+        """
+        :rtype: Unit
+        """
         if self._unitsCache is None:
-            self.units
+            self._units()
         return self._baseUnitCache
 
     def _units(self):
@@ -75,6 +78,10 @@ class Measurement(object):
         return self._id_cache
 
     def currentUnit(self, label='normal'):
+        """
+        :type label: str
+        :rtype: Unit
+        """
         _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
         cursor = _connection.execute("SELECT unitID  FROM CurrentUnits WHERE measurementID = ? AND label = ? ",
                                      (self._id(), label))
@@ -83,6 +90,10 @@ class Measurement(object):
         return None
 
     def setCurrentUnit(self, u, label='normal'):
+        """
+        :type u: Unit
+        :type label: str
+        """
         _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
         _connection.execute("UPDATE CurrentUnits set unitID = ? where measurementID = ? AND label = ? ",
                             (u.id_cache, self._id_cache, label))
@@ -132,9 +143,16 @@ class Unit(object):
 
     @property
     def baseUnit(self):
+        """
+        :rtype: Unit
+        """
         return self.measurement.baseUnit
 
     def currentUnit(self, label='normal'):
+        """
+        :type label: str
+        :rtype: Unit
+        """
         return self.measurement.currentUnit(label=label)
 
     def becomeCurrentNormalUnit(self):

@@ -5,6 +5,7 @@
 
 
 from .models import Measurement as MeasurementObject, UnitMeasurementException
+from .models import Unit as UnitObject
 from .ConglomerateWidgets import UnitEntryField, SingleMeasurementEntryFieldStack, MeasurementEntryGridField
 from .MeasurementWidgets import UnitDisplay, UnitComboBox, UnitSpinBox
 from .UnitComboDelegate import UnitComboDelegate
@@ -18,12 +19,23 @@ def menu(parent):
     return SelectionMenu.menu(_measurements.values(),parent)
 
 def Measurement(name):
+    """
+    :type name: str
+    :rtype: MeasurementObject
+    :raises UnitMeasurementException
+    """
     if name not in _measurements:
         _measurements[name] = MeasurementObject(name)
     return _measurements[name]
 
 
 def Unit(measurement, name):
+    """
+    :type measurement: MeasurementObject
+    :type name: str
+    :rtype: UnitObject
+    :raises UnitMeasurementException
+    """
     for u in measurement.units:
         if u.name == name:
             return u
@@ -33,4 +45,7 @@ def Unit(measurement, name):
     raise UnitMeasurementException("There is no unit for " + str(measurement) + " by the name: " + name)
 
 def changedSignal():
+    """
+    :rtype: callable
+    """
     return _setter.changed
