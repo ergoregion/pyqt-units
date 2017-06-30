@@ -5,9 +5,9 @@
 
 import os
 from shutil import copyfile
-root_filename =  os.path.dirname(__file__) + '/Measurements/Measurements_root.db'
+root_filename =  os.path.join(os.path.dirname(__file__) , 'Measurements' ,'Measurements_root.db')
 
-filename = 'Measurements_temp.db'
+filename = os.path.join(os.path.dirname(__file__) , 'Measurements' , 'Measurements_temp.db')
 
 if not os.path.isfile(filename):
     copyfile(root_filename,filename)
