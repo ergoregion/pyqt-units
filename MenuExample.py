@@ -23,12 +23,12 @@ class MenuWidget(QtGui.QTableWidget):
 
 class MenuWindow(QtGui.QMainWindow):
 
-    def __init__(self):
+    def __init__(self,measurements):
         super(MenuWindow, self).__init__()
         w = MenuWidget(self)
         self.setCentralWidget(w)
         menubar = self.menuBar()
-        m = menu(self)
+        m = menu(self,measurements)
         menubar.addMenu(m)
 
 def main():
@@ -37,7 +37,7 @@ def main():
     speed_measurement = Measurement('Speed')
 
     app = QtGui.QApplication(sys.argv)
-    mainWindow = MenuWindow()
+    mainWindow = MenuWindow([length_measurement,time_measurement])
     mainWindow.show()
     sys.exit(app.exec_())
 

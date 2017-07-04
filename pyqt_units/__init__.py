@@ -14,9 +14,12 @@ from . import SelectionMenu
 
 _measurements = {}
 
-def menu(parent):
-    #only those measurements which have been used for something
-    return SelectionMenu.menu(_measurements.values(),parent)
+def menu(parent, measurements=None):
+    if measurements is None:
+        #only those measurements which have been used for something
+        return SelectionMenu.menu(_measurements.values(),parent)
+    else:
+        return SelectionMenu.menu([m for m in measurements if m in _measurements.values()], parent)
 
 def Measurement(name):
     """
