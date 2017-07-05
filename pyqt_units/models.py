@@ -8,6 +8,7 @@ import sqlite3
 import ast
 from .MeasurementDatabase import filename
 from .CurrentUnitSetter import setter
+from PyQt4 import QtCore
 
 
 
@@ -99,10 +100,10 @@ class Measurement(object):
                             (u.id_cache, self._id_cache, label))
         _connection.commit()
 
-    def report(self, base_value, decimalPlaces=3, label='normal', writeUnit=True):
+    def report(self, base_value, precision=6, label='normal', writeUnit=True):
         try:
             scaled_value = self.currentUnit(label).scaledValueOf(base_value)
-            text = '%.*f' % (decimalPlaces, scaled_value)
+            text = QtCore.QLocale().toString(scaled_value, precision=precision)
         except (ValueError, TypeError):
             text = str(base_value)
         if writeUnit:
