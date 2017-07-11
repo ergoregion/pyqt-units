@@ -113,6 +113,9 @@ class Measurement(object):
     def scaledValueOf(self, base_float, label='normal'):
         return self.currentUnit(label).scaledValueOf(base_float)
 
+    def baseValueFrom(self, base_float, label='normal'):
+        return self.currentUnit(label).baseValueFrom(base_float)
+
 
 class Unit(object):
     def __init__(self):
