@@ -5,7 +5,6 @@
 
 
 import sqlite3
-import ast
 from .MeasurementDatabase import filename
 from .CurrentUnitSetter import setter
 from PyQt4 import QtCore
