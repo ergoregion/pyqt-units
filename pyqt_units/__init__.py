@@ -52,3 +52,6 @@ def changedSignal():
     :rtype: callable
     """
     return _setter.changed
+
+def measurements_list():
+    return('Length','Angle','Pressure','Temperature','Volume', 'Mass', 'Proportion', 'Density', 'Force', 'Power', 'Time', 'AngularSpeed', 'Torque', 'None', 'Speed')
