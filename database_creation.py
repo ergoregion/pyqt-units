@@ -5,7 +5,7 @@
 
 
 import sqlite3
-from MeasurementDatabase import filename
+from pyqt_units.MeasurementDatabase import filename
 from pyqt_units import *
 
 if __name__ == '__main__':
@@ -64,8 +64,11 @@ if __name__ == '__main__':
             _c.execute('INSERT INTO UNITS (name,  measurementID,  Scale,  offset,  base) VALUES (?,?,?,?,?)',
                                 (u.name, i+1, str(u.scale), str(u.offset), m.baseUnit == u))
             _c.execute("INSERT INTO UNITNAMES VALUES (?, ?, ?) ",(j,u.name,1))
-            for a in u.alias:
-                _c.execute("INSERT INTO UNITNAMES VALUES (?, ?, ?) ",(j,a,0))
+            for a in u.alias():
+                try:
+                    _c.execute("INSERT INTO UNITNAMES VALUES (?, ?, ?) ",(j,a,0))
+                except sqlite3.IntegrityError:
+                    pass
             j=j+1
         print(m)
 
