@@ -43,7 +43,7 @@ def Unit(measurement, name):
         if u.name == name:
             return u
     for u in measurement.units:
-        if name in u.alias:
+        if name in u.alias():
             return u
     raise UnitMeasurementException("There is no unit for " + str(measurement) + " by the name: " + name)
 

@@ -89,7 +89,7 @@ class Measurement(object):
             for row in cursor:
                 unit = Unit()
                 unit.measurement = self
-                unit.name = row[0]
+                unit._name = row[0]
                 unit.scale = float(row[1])
                 unit.offset = float(row[2])
                 unit.id_cache = row[3]
@@ -213,6 +213,14 @@ class Unit(object):
     def becomeCurrentNormalUnit(self):
         setter.setMeasurementUnit(self.measurement, self)
     
+    def alias(self):
+        res = []
+        _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
+        cursor = _connection.execute("SELECT name  FROM UNITNAMES WHERE unitID = ?",
+                                     (self.id_cache,))
+        for row in cursor:
+            res.append(row[0])
+        return res
 
     def addAlias(self, name):
         """
@@ -230,13 +238,13 @@ class Unit(object):
         :rtype: str
         """
         _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
-        cursor = _connection.execute("SELECT name  FROM UNITNAMES WHERE unitID = ? AND preferred = 1 ",
-                                     (self.id_cache,))
+        cursor = _connection.execute("SELECT name  FROM UNITNAMES WHERE unitID = ? AND preferred = ? ",
+                                     (self.id_cache, 1))
         for row in cursor:
             return row[0]
 
-        _connection.execute("UPDATE UNITNAMES set preferred = 1 where unitID = ? AND name = ? ",
-                                (self.id_cache, self._name))
+        _connection.execute("UPDATE UNITNAMES set preferred = ? where unitID = ? AND name = ? ",
+                                (1, self.id_cache, self._name))
         _connection.commit()
         return self._name
 
@@ -247,8 +255,8 @@ class Unit(object):
         """
         if name != self.name:
             _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
-            _connection.execute("UPDATE UNITNAMES set preferred = 0 where unitID = ?",
-                                (self.id_cache,))
-            _connection.execute("UPDATE UNITNAMES set preferred = 1 where unitID = ? AND name = ? ",
-                                (self.id_cache, name))
+            _connection.execute("UPDATE UNITNAMES set preferred = ? where unitID = ?",
+                                (0, self.id_cache,))
+            _connection.execute("UPDATE UNITNAMES set preferred = ? where unitID = ? AND name = ? ",
+                                (1, self.id_cache, name))
             _connection.commit()
