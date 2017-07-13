@@ -23,13 +23,13 @@ class UnitMeasurementException(Exception):
 
 class Measurement(object):
     def __init__(self, name=None):
-        self.name = name
+        self._name = name
         self._unitsCache = None
         self._id_cache = None
         self._baseUnitCache = None
 
     def __repr__(self):
-        return "Measurement('" + self.name + "')"
+        return "Measurement('" + self._name + "')"
 
     @property
     def baseUnit(self):
@@ -40,11 +40,51 @@ class Measurement(object):
             self._units()
         return self._baseUnitCache
 
+    @property
+    def name(self):
+        """
+        :rtype: str
+        """
+        _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
+        cursor = _connection.execute("SELECT name  FROM MEASUREMENTNAMES WHERE measurementID = ? AND preferred = 1 ",
+                                     (self._id(),))
+        for row in cursor:
+            return row[0]
+
+        _connection.execute("UPDATE MEASUREMENTNAMES set preferred = 1 where measurementID = ? AND name = ? ",
+                                (self._id_cache, self._name))
+        _connection.commit()
+        return self._name
+
+
+    def setPreferredName(self, name):
+        """
+        :type name: str
+        """
+        if name != self.name:
+            _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
+            _connection.execute("UPDATE MEASUREMENTNAMES set preferred = 0 where measurementID = ?",
+                                (self._id_cache,))
+            _connection.execute("UPDATE MEASUREMENTNAMES set preferred = 1 where measurementID = ? AND name = ? ",
+                                (self._id_cache, name))
+            _connection.commit()
+
+
+    def addAlias(self, name):
+        """
+        :type name: str
+        """
+        if name != self.name:
+            _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
+            _connection.execute("INSERT INTO MEASUREMENTNAMES VALUES (?,?,?) ",
+                                (self._id_cache, name, 0))
+            _connection.commit()
+
     def _units(self):
         if self._unitsCache is None:
             self._unitsCache = {}
             _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
-            cursor = _connection.execute("SELECT name , Scale , offset ,id , base, alias FROM UNITS WHERE measurementID = ?",
+            cursor = _connection.execute("SELECT name , Scale , offset ,id , base FROM UNITS WHERE measurementID = ?",
                                          (self._id(),))
             for row in cursor:
                 unit = Unit()
@@ -56,9 +96,8 @@ class Measurement(object):
                 self._unitsCache[row[3]] = unit
                 if row[4] == 1:
                     self._baseUnitCache = unit
-                unit.alias = ast.literal_eval(row[5])
             if self._baseUnitCache is None:
-                raise UnitMeasurementException("There was no unit to act as the base unit for measurement " + self.name)
+                raise UnitMeasurementException("There was no unit to act as the base unit for measurement " + self._name)
         return self._unitsCache
 
     @property
@@ -68,14 +107,21 @@ class Measurement(object):
     def _id(self):
         if self._id_cache is None:
             _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
-            cursor = _connection.execute("SELECT id  FROM MEASUREMENTS WHERE name = ?", (self.name,))
+            cursor = _connection.execute("SELECT id  FROM MEASUREMENTS WHERE name = ?", (self._name,))
             for row in cursor:
                 if self._id_cache is None:
                     self._id_cache = row[0]
                 else:
                     raise UnitMeasurementException("There are multiple measurements with the same name")
             if self._id_cache is None:
-                raise UnitMeasurementException("There was no measurements with this name in the database")
+                cursor = _connection.execute("SELECT measurementID  FROM MEASUREMENTNAMES WHERE name = ?", (self._name,))
+                for row in cursor:
+                    if self._id_cache is None:
+                        self._id_cache = row[0]
+                    else:
+                        raise UnitMeasurementException("There are multiple measurements with the same name")
+                if self._id_cache is None:
+                    raise UnitMeasurementException("There was no measurements with this name in the database")
         return self._id_cache
 
     def currentUnit(self, label='normal'):
@@ -84,21 +130,27 @@ class Measurement(object):
         :rtype: Unit
         """
         _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
-        cursor = _connection.execute("SELECT unitID  FROM CurrentUnits WHERE measurementID = ? AND label = ? ",
+        cursor = _connection.execute("SELECT unitID  FROM CURRENTUNITS WHERE measurementID = ? AND label = ? ",
                                      (self._id(), label))
         for row in cursor:
             return self._units()[row[0]]
-        return None
+
+        self._units()
+        _connection.execute("INSERT INTO CURRENTUNITS VALUES (?,?,?) ",
+                            (self._id_cache, label, self.baseUnit.id_cache))
+        _connection.commit()
+        return self.baseUnit
 
     def setCurrentUnit(self, u, label='normal'):
         """
         :type u: Unit
         :type label: str
         """
-        _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
-        _connection.execute("UPDATE CurrentUnits set unitID = ? where measurementID = ? AND label = ? ",
-                            (u.id_cache, self._id_cache, label))
-        _connection.commit()
+        if u != self.currentUnit(label):
+            _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
+            _connection.execute("UPDATE CURRENTUNITS set unitID = ? where measurementID = ? AND label = ? ",
+                                (u.id_cache, self._id_cache, label))
+            _connection.commit()
 
     def report(self, base_value, precision=6, label='normal', writeUnit=True):
         try:
@@ -119,12 +171,11 @@ class Measurement(object):
 
 class Unit(object):
     def __init__(self):
-        self.name = None
+        self._name = None
         self.measurement = None
         self.scale = 1.0
         self.offset = 0.0
         self.id_cache = 0
-        self.alias = []
 
     def __repr__(self):
         return "Unit(" +str(self.measurement) + ",'" + self.name + "')"
@@ -162,3 +213,42 @@ class Unit(object):
     def becomeCurrentNormalUnit(self):
         setter.setMeasurementUnit(self.measurement, self)
     
+
+    def addAlias(self, name):
+        """
+        :type name: str
+        """
+        if name != self.name:
+            _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
+            _connection.execute("INSERT INTO UNITNAMES VALUES (?,?,?) ",
+                                (self.id_cache, name, 0))
+            _connection.commit()
+
+    @property
+    def name(self):
+        """
+        :rtype: str
+        """
+        _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
+        cursor = _connection.execute("SELECT name  FROM UNITNAMES WHERE unitID = ? AND preferred = 1 ",
+                                     (self.id_cache,))
+        for row in cursor:
+            return row[0]
+
+        _connection.execute("UPDATE UNITNAMES set preferred = 1 where unitID = ? AND name = ? ",
+                                (self.id_cache, self._name))
+        _connection.commit()
+        return self._name
+
+
+    def setPreferredName(self, name):
+        """
+        :type name: str
+        """
+        if name != self.name:
+            _connection = sqlite3.connect(filename, detect_types=sqlite3.PARSE_DECLTYPES)
+            _connection.execute("UPDATE UNITNAMES set preferred = 0 where unitID = ?",
+                                (self.id_cache,))
+            _connection.execute("UPDATE UNITNAMES set preferred = 1 where unitID = ? AND name = ? ",
+                                (self.id_cache, name))
+            _connection.commit()
