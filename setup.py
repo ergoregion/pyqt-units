@@ -4,7 +4,7 @@ import os
 setup(
     name='pyqt-units',
     packages=find_packages(exclude=[]),
-    version='1.6',
+    version='1.7',
     description='System of units for PyQt',
     author='Neil Butcher',
     url='https://github.com/ergoregion/pyqt-units.git',
