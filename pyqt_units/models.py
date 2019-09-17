@@ -7,7 +7,7 @@
 import sqlite3
 from .MeasurementDatabase import filename
 from .CurrentUnitSetter import setter
-from PyQt4 import QtCore
+from PySide2 import QtCore
 
 
 

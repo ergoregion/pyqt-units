@@ -5,14 +5,14 @@ Created on 14 Apr 2016
 """
 
 import sys
-from PyQt4 import QtGui, QtCore
-from pyqt_units import Measurement, UnitEntryField, menu
+from PySide2 import QtWidgets
+from pyqt_units import Measurement, menu
 
 
-class MenuWidget(QtGui.QTableWidget):
+class MenuWidget(QtWidgets.QTableWidget):
 
     def __init__(self, parent = None):
-        QtGui.QTableWidget.__init__(self, parent)
+        QtWidgets.QTableWidget.__init__(self, parent)
 
 
     def contextMenuEvent(self, event):
@@ -21,7 +21,7 @@ class MenuWidget(QtGui.QTableWidget):
         action = m.exec_(self.mapToGlobal(event.pos()))
 
 
-class MenuWindow(QtGui.QMainWindow):
+class MenuWindow(QtWidgets.QMainWindow):
 
     def __init__(self,measurements):
         super(MenuWindow, self).__init__()
@@ -36,7 +36,7 @@ def main():
     time_measurement = Measurement('Time')
     speed_measurement = Measurement('Speed')
 
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     mainWindow = MenuWindow([length_measurement,time_measurement])
     mainWindow.show()
     sys.exit(app.exec_())

@@ -4,13 +4,13 @@
 #@author: neil.butcher
 
 
-from PyQt4 import QtCore, QtGui
+from PySide2 import QtCore, QtWidgets
 
 
-class UnitComboDelegate(QtGui.QStyledItemDelegate):
+class UnitComboDelegate(QtWidgets.QStyledItemDelegate):
     
     def __init__(self, parent):
-        QtGui.QStyledItemDelegate.__init__(self, parent)
+        QtWidgets.QStyledItemDelegate.__init__(self, parent)
         self.parent = parent
 
     def createEditor(self, parent, option, index):
@@ -20,7 +20,7 @@ class UnitComboDelegate(QtGui.QStyledItemDelegate):
         names_list = []
         for i in self.itemslist:
             names_list.append(i.name)
-        self.editor = QtGui.QComboBox(parent)
+        self.editor = QtWidgets.QComboBox(parent)
         self.editor.addItems(names_list)
         self.editor.setCurrentIndex(0)
         self.editor.installEventFilter(self)    

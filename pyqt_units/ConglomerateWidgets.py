@@ -7,21 +7,20 @@
 import sys
 
 from . import MeasurementDatabase
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import pyqtSignal
+from PySide2 import QtCore, QtWidgets
 
 from .MeasurementWidgets import UnitDisplay, UnitComboBox, UnitSpinBox
 
 
-class UnitEntryField(QtGui.QWidget):
-    valueChanged = pyqtSignal(float)
+class UnitEntryField(QtWidgets.QWidget):
+    valueChanged = QtCore.Signal(float)
 
     def __init__(self, parent, measurement=None, measurementLabel='normal', label=None, delta=False, editableUnit=True):
-        QtGui.QWidget.__init__(self, parent)
-        self.layout = QtGui.QHBoxLayout(self)
+        QtWidgets.QWidget.__init__(self, parent)
+        self.layout = QtWidgets.QHBoxLayout(self)
         self.layout.setMargin(0)
         if not label == None:
-            a = QtGui.QLabel(label, parent=self)
+            a = QtWidgets.QLabel(label, parent=self)
             self.layout.addWidget(a)
         self._box = UnitSpinBox(self, measurement, delta=delta, measurementLabel=measurementLabel)
         self._box.valueChanged.connect(self._valueChanged)
@@ -53,12 +52,12 @@ class UnitEntryField(QtGui.QWidget):
     def setReadOnly(self, a_bool):
         self._box.setEnabled(not a_bool)
 
-class SingleMeasurementEntryFieldStack(QtGui.QWidget):
-    valueChanged = pyqtSignal(float, str)
+class SingleMeasurementEntryFieldStack(QtWidgets.QWidget):
+    valueChanged = QtCore.Signal(float, str)
 
     def __init__(self, parent, n=1, measurement=None, measurementLabel='normal', labels=None, deltas=None):
-        QtGui.QWidget.__init__(self, parent)
-        self.layout = QtGui.QVBoxLayout(self)
+        QtWidgets.QWidget.__init__(self, parent)
+        self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setSpacing(0)
         self.layout.setMargin(0)
         signalMapper = QtCore.QSignalMapper(self)
@@ -82,8 +81,8 @@ class SingleMeasurementEntryFieldStack(QtGui.QWidget):
                                     delta=d[i], editableUnit=e[i])
             self.fields[i] = aField
             self.layout.addWidget(aField)
-            aField.valueChanged.connect(signalMapper.map);
-            signalMapper.setMapping(aField, i);
+            aField.valueChanged.connect(signalMapper.map)
+            signalMapper.setMapping(aField, i)
 
         signalMapper.mapped.connect(self._valueChanged)
 
@@ -100,13 +99,13 @@ class SingleMeasurementEntryFieldStack(QtGui.QWidget):
         self.valueChanged.emit(value, identity)
 
 
-class MeasurementEntryGridField(QtGui.QWidget):
-    valueChanged = pyqtSignal(float, str)
-    editingFinished = pyqtSignal(float, str)
+class MeasurementEntryGridField(QtWidgets.QWidget):
+    valueChanged = QtCore.Signal(float, str)
+    editingFinished = QtCore.Signal(float, str)
 
     def __init__(self, parent):
-        QtGui.QWidget.__init__(self, parent)
-        self.layout = QtGui.QGridLayout(self)
+        QtWidgets.QWidget.__init__(self, parent)
+        self.layout = QtWidgets.QGridLayout(self)
         self.layout.setMargin(2)
         self.layout.setSpacing(6)
         self.valueSignalMapper = QtCore.QSignalMapper(self)
@@ -125,7 +124,7 @@ class MeasurementEntryGridField(QtGui.QWidget):
             _editable = editable
 
         if not label is None:
-            a = QtGui.QLabel(label, parent=self)
+            a = QtWidgets.QLabel(label, parent=self)
             a.setMargin(0)
             self.layout.addWidget(a, nextIndex, 0)
 
