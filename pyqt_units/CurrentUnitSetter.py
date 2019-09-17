@@ -4,13 +4,12 @@
 #@author: neil.butcher
 
 
-from PyQt4 import QtCore
-from PyQt4.QtCore import pyqtSignal
+from PySide2 import QtCore
 
 
 class CurrentUnitSetter(QtCore.QObject):
     
-    changed = pyqtSignal(str,str,str)
+    changed = QtCore.Signal(str,str,str)
     
     def setMeasurementUnit(self, m, u, label='normal'):
         """

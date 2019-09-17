@@ -1,19 +1,20 @@
 import sys
-from PyQt4 import QtGui
+from PySide2 import QtWidgets
 from pyqt_units import Measurement
 
-class PrintWidget(QtGui.QWidget):
+
+class PrintWidget(QtWidgets.QWidget):
     def __init__(self):
-        QtGui.QWidget.__init__(self, None)
-        self.layout = QtGui.QVBoxLayout(self)
+        QtWidgets.QWidget.__init__(self, None)
+        self.layout = QtWidgets.QVBoxLayout(self)
 
         self.length_measurement = Measurement('Length')
 
-        self.text_entry_widget = QtGui.QLineEdit(self)
+        self.text_entry_widget = QtWidgets.QLineEdit(self)
         self.text_entry_widget.textChanged.connect(self._print_text)
         self.layout.addWidget(self.text_entry_widget)
 
-        self.spin_entry_widget = QtGui.QSpinBox(self)
+        self.spin_entry_widget = QtWidgets.QSpinBox(self)
         self.spin_entry_widget.valueChanged.connect(self._print_float)
         self.layout.addWidget(self.spin_entry_widget)
 
@@ -28,7 +29,7 @@ class PrintWidget(QtGui.QWidget):
 
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     mainWindow = PrintWidget()
     mainWindow.show()
     sys.exit(app.exec_())

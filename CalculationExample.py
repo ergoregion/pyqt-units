@@ -5,14 +5,14 @@ Created on 16 Mar 2016
 """
 
 import sys
-from PyQt4 import QtGui
+from PySide2 import QtWidgets
 from pyqt_units import Measurement, UnitEntryField
 
 
-class CalculationWidget(QtGui.QWidget):
+class CalculationWidget(QtWidgets.QWidget):
     def __init__(self):
-        QtGui.QWidget.__init__(self, None)
-        self.layout = QtGui.QVBoxLayout(self)
+        QtWidgets.QWidget.__init__(self, None)
+        self.layout = QtWidgets.QVBoxLayout()
 
         length_measurement = Measurement('Length')
         time_measurement = Measurement('Time')
@@ -48,7 +48,7 @@ class CalculationWidget(QtGui.QWidget):
 
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     mainWindow = CalculationWidget()
     mainWindow.show()
     sys.exit(app.exec_())

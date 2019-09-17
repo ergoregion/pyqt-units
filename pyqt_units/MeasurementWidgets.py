@@ -4,19 +4,15 @@
 #@author: neil.butcher
 
 
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import pyqtSignal
-
-from .CurrentUnitSetter import setter
+from PySide2 import QtCore, QtWidgets
+from pyqt_units.CurrentUnitSetter import setter
 
 
-
-
-class UnitDisplay(QtGui.QWidget):
+class UnitDisplay(QtWidgets.QWidget):
     def __init__(self, parent, measurement=None, measurementLabel='normal'):
-        QtGui.QWidget.__init__(self, parent)
-        self.layout = QtGui.QVBoxLayout(self)
-        self._label = QtGui.QLabel('', self)
+        QtWidgets.QWidget.__init__(self, parent)
+        self.layout = QtWidgets.QVBoxLayout()
+        self._label = QtWidgets.QLabel('', self)
         self.layout.addWidget(self._label)
         self.layout.setMargin(2)
         self.measurement = measurement
@@ -24,7 +20,7 @@ class UnitDisplay(QtGui.QWidget):
         setter.changed.connect(self.currentUnitChangedElsewhere)
         self._update()
 
-    @QtCore.pyqtSlot(str, str, str)
+    @QtCore.Slot(str, str, str)
     def currentUnitChangedElsewhere(self, measName, unitName, measurementLabel):
         if self.measurement == None:
             pass
@@ -52,12 +48,12 @@ class UnitDisplay(QtGui.QWidget):
         self._label.setText(txt)
 
 
-class UnitComboBox(QtGui.QWidget):
+class UnitComboBox(QtWidgets.QWidget):
     def __init__(self, parent, measurement=None, measurementLabel='normal'):
-        QtGui.QWidget.__init__(self, parent)
-        self.layout = QtGui.QVBoxLayout(self)
+        QtWidgets.QWidget.__init__(self, parent)
+        self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setMargin(2)
-        self._box = QtGui.QComboBox(self)
+        self._box = QtWidgets.QComboBox(self)
         self.layout.addWidget(self._box)
         self._measurementLabel = measurementLabel
         self._box.currentIndexChanged.connect(self.changedToIndex)
@@ -65,7 +61,7 @@ class UnitComboBox(QtGui.QWidget):
         self.setMeasurement(measurement)
         self._update()
 
-    @QtCore.pyqtSlot(str, str, str)
+    @QtCore.Slot(str, str, str)
     def currentUnitChangedElsewhere(self, measName, unitName, measurementLabel):
         if self.measurement == None:
             pass
@@ -103,29 +99,29 @@ class UnitComboBox(QtGui.QWidget):
                 pos = 0
             self._box.setCurrentIndex(pos)
 
-    @QtCore.pyqtSlot(int)
+    @QtCore.Slot(int)
     def changedToIndex(self, i):
         if not self.measurement == None:
             unit = self.itemslist[i]
             setter.setMeasurementUnit(self.measurement, unit, self._measurementLabel)
 
 
-class AddaptiveDoubleSpinBox(QtGui.QDoubleSpinBox):
+class AddaptiveDoubleSpinBox(QtWidgets.QDoubleSpinBox):
     def textFromValue(self, value):
         s = '{0:g}'.format(value)
         return s
 
 
-class UnitSpinBox(QtGui.QWidget):
-    valueChanged = pyqtSignal(float)
-    editingFinished = pyqtSignal()
+class UnitSpinBox(QtWidgets.QWidget):
+    valueChanged = QtCore.Signal(float)
+    editingFinished = QtCore.Signal()
 
     def __init__(self, parent, measurement=None, delta=False, measurementLabel='normal'):
-        QtGui.QWidget.__init__(self, parent)
-        self.layout = QtGui.QVBoxLayout(self)
+        QtWidgets.QWidget.__init__(self, parent)
+        self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setMargin(2)
         self._box = AddaptiveDoubleSpinBox(self)
-        self._box.setButtonSymbols(QtGui.QAbstractSpinBox.NoButtons)
+        self._box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self._box.setMaximum(2.0e30)
         self._box.setMinimum(-2.0e30)
         self._box.setDecimals(12)
@@ -139,7 +135,7 @@ class UnitSpinBox(QtGui.QWidget):
         self.setMeasurement(measurement)
         self._update()
 
-    @QtCore.pyqtSlot(str, str, str)
+    @QtCore.Slot(str, str, str)
     def currentUnitChangedElsewhere(self, measName, unitName, measurementLabel):
         if self.measurement is None:
             pass
