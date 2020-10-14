@@ -54,4 +54,4 @@ def changedSignal():
     return _setter.changed
 
 def measurements_list():
-    return('Length','Angle','Pressure','Temperature','Volume', 'Mass', 'Proportion', 'Density', 'Force', 'Power', 'Time', 'AngularSpeed', 'Torque', 'None', 'Speed', 'Inertia', 'Area', 'Current', 'Voltage', 'Magnetic Flux Linkage', 'Flux Density', 'Inductance', 'Resistance')
+    return('Length','Angle','Pressure','Temperature','Volume', 'Mass', 'Proportion', 'Density', 'Force', 'Power', 'Time', 'AngularSpeed', 'Torque', 'None', 'Speed', 'Inertia', 'Area', 'Current', 'Voltage', 'Magnetic Flux Linkage', 'Flux Density', 'Inductance', 'Resistance', 'Current Density', 'Torque Per Unit Current', 'Voltage Per Unit AngularSpeed')
