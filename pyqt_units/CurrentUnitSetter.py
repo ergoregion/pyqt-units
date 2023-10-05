@@ -4,7 +4,7 @@
 #@author: neil.butcher
 
 
-from PySide2 import QtCore
+from PySide6 import QtCore
 
 
 class CurrentUnitSetter(QtCore.QObject):

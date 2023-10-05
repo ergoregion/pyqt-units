@@ -4,8 +4,8 @@ import os
 setup(
     name='pyqt-units',
     packages=find_packages(exclude=[]),
-    version='3.6',
-    description='System of units for PyQt',
+    version='4.0',
+    description='System of units for PySide6',
     author='Neil Butcher',
     url='https://github.com/ergoregion/pyqt-units.git',
     license='MIT',
