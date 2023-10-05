@@ -18,7 +18,7 @@ class UnitEntryField(QtWidgets.QWidget):
     def __init__(self, parent, measurement=None, measurementLabel='normal', label=None, delta=False, editableUnit=True):
         QtWidgets.QWidget.__init__(self, parent)
         self.layout = QtWidgets.QHBoxLayout(self)
-        self.layout.setMargin(0)
+        self.layout.setContentsMargins(0, 0, 0, 0)
         if not label == None:
             a = QtWidgets.QLabel(label, parent=self)
             self.layout.addWidget(a)
@@ -59,7 +59,7 @@ class SingleMeasurementEntryFieldStack(QtWidgets.QWidget):
         QtWidgets.QWidget.__init__(self, parent)
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setSpacing(0)
-        self.layout.setMargin(0)
+        self.layout.setContentsMargins(0, 0, 0, 0)
         signalMapper = QtCore.QSignalMapper(self)
 
         self.fields = [0] * n
@@ -106,7 +106,7 @@ class MeasurementEntryGridField(QtWidgets.QWidget):
     def __init__(self, parent):
         QtWidgets.QWidget.__init__(self, parent)
         self.layout = QtWidgets.QGridLayout(self)
-        self.layout.setMargin(2)
+        self.layout.setContentsMargins(2, 2, 2, 2)
         self.layout.setSpacing(6)
         self.valueSignalMapper = QtCore.QSignalMapper(self)
         self.valueSignalMapper.mapped.connect(self._valueChanged)
@@ -125,11 +125,11 @@ class MeasurementEntryGridField(QtWidgets.QWidget):
 
         if not label is None:
             a = QtWidgets.QLabel(label, parent=self)
-            a.setMargin(0)
+            a.setContentsMargins(0, 0, 0, 0)
             self.layout.addWidget(a, nextIndex, 0)
 
         _box = UnitSpinBox(self, measurement, measurementLabel=measurementLabel, delta=delta)
-        _box.setMargin(0)
+        _box.setContentsMargins(0, 0, 0, 0)
         self.layout.addWidget(_box, nextIndex, 1)
         _box.valueChanged.connect(self.valueSignalMapper.map)
         self.valueSignalMapper.setMapping(_box, nextIndex)
@@ -141,7 +141,7 @@ class MeasurementEntryGridField(QtWidgets.QWidget):
             self._unitfield = UnitComboBox(self, measurement, measurementLabel=measurementLabel)
         else:
             self._unitfield = UnitDisplay(self, measurement, measurementLabel=measurementLabel)
-        self._unitfield.setMargin(0)
+        self._unitfield.setContentsMargins(0, 0, 0, 0)
         self.layout.addWidget(self._unitfield, nextIndex, 2)
 
         self.identifers.append(identifer)
