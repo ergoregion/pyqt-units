@@ -4,7 +4,7 @@
 #@author: neil.butcher
 
 
-from PySide2 import QtCore, QtWidgets
+from PySide6 import QtCore, QtWidgets
 from pyqt_units.CurrentUnitSetter import setter
 
 
@@ -14,7 +14,7 @@ class UnitDisplay(QtWidgets.QWidget):
         self.layout = QtWidgets.QVBoxLayout()
         self._label = QtWidgets.QLabel('', self)
         self.layout.addWidget(self._label)
-        self.layout.setMargin(2)
+        self.layout.setContentsMargins(2, 2, 2, 2)
         self.measurement = measurement
         self._measurementLabel = measurementLabel
         setter.changed.connect(self.currentUnitChangedElsewhere)
@@ -36,7 +36,7 @@ class UnitDisplay(QtWidgets.QWidget):
         self._update()
 
     def setMargin(self, margin):
-        self.layout.setMargin(margin)
+        self.layout.setContentsMargins(margin, margin, margin, margin)
 
     def _update(self):
         if self.measurement == None:
@@ -52,7 +52,7 @@ class UnitComboBox(QtWidgets.QWidget):
     def __init__(self, parent, measurement=None, measurementLabel='normal'):
         QtWidgets.QWidget.__init__(self, parent)
         self.layout = QtWidgets.QVBoxLayout(self)
-        self.layout.setMargin(2)
+        self.layout.setContentsMargins(2, 2, 2, 2)
         self._box = QtWidgets.QComboBox(self)
         self.layout.addWidget(self._box)
         self._measurementLabel = measurementLabel
@@ -87,7 +87,7 @@ class UnitComboBox(QtWidgets.QWidget):
         self._update()
 
     def setMargin(self, margin):
-        self.layout.setMargin(margin)
+        self.layout.setMargin(margin, margin, margin, margin)
 
     def _update(self):
         if self.measurement is None:
@@ -119,7 +119,7 @@ class UnitSpinBox(QtWidgets.QWidget):
     def __init__(self, parent, measurement=None, delta=False, measurementLabel='normal'):
         QtWidgets.QWidget.__init__(self, parent)
         self.layout = QtWidgets.QVBoxLayout(self)
-        self.layout.setMargin(2)
+        self.layout.setContentsMargins(2, 2, 2, 2)
         self._box = AddaptiveDoubleSpinBox(self)
         self._box.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self._box.setMaximum(2.0e30)

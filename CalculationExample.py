@@ -5,7 +5,7 @@ Created on 16 Mar 2016
 """
 
 import sys
-from PySide2 import QtWidgets
+from PySide6 import QtWidgets
 from pyqt_units import Measurement, UnitEntryField
 
 
